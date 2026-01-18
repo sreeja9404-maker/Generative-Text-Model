@@ -1,0 +1,52 @@
+!pip install torch transformers
+import torch
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+# Specify the GPT-2 model variant to use
+model_name = "gpt2"
+
+# Load tokenizer to convert text into tokens
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+
+# Load pre-trained GPT-2 model for text generation
+model = GPT2LMHeadModel.from_pretrained(model_name)
+
+# Select GPU if available, otherwise use CPU
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Move model to the selected device
+model.to(device)
+
+# Set model to evaluation mode to disable training behaviors
+model.eval()
+
+def generate_text(prompt, max_length=150, temperature=0.8):
+    # Encode input prompt into token IDs
+    inputs = tokenizer.encode(prompt, return_tensors="pt").to(device)
+
+    # Generate text using probabilistic sampling
+    outputs = model.generate(
+        inputs,
+        max_length=max_length,
+        do_sample=True,
+        temperature=temperature,
+        top_k=50,
+        top_p=0.95,
+        repetition_penalty=1.2,
+        pad_token_id=tokenizer.eos_token_id
+    )
+
+    # Decode generated tokens into readable text
+    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+# Define the initial text prompt
+prompt = "Artificial intelligence is transforming the world"
+
+# Generate text based on the prompt
+generated_text = generate_text(prompt)
+
+# Display input prompt
+print("\nPROMPT:\n", prompt)
+
+# Display generated output text
+print("\nGENERATED TEXT:\n", generated_text)
