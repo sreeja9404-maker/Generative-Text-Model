@@ -16,4 +16,5 @@ In this project, the *Hugging Face Transformers* library is used to load the pre
 A text generation function is defined to take a user prompt as input and generate text using sampling techniques such as temperature scaling, top-k sampling, and nucleus (top-p) sampling. These parameters control creativity, randomness, and repetition in the generated output. The model produces a sequence of tokens, which are then decoded back into readable text. Overall, this project demonstrates how large language models can be used for applications such as content creation, story generation, chatbots, and creative writing, while providing a simple and practical introduction to transformer-based text generation.
 
 **OUTPUT**:
+
 <img width="731" height="68" alt="Image" src="https://github.com/user-attachments/assets/33abfeb7-7b26-4266-b28f-fb88392d8013" />
